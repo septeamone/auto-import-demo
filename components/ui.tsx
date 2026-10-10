@@ -118,7 +118,3 @@ export function Reveal({
     </Comp>
   );
 }
-
-export function DemoBadge({ children }: { children: React.ReactNode }) {
-  return <span className="text-[12.5px] font-semibold text-warn">{children}</span>;
-}

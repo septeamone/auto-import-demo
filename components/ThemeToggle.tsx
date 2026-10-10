@@ -1,59 +1,40 @@
 "use client";
 
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
-type Pref = "system" | "light" | "dark";
+type Theme = "light" | "dark";
 const KEY = "site-theme";
 
-const OPTIONS: { value: Pref; label: string; Icon: typeof Sun }[] = [
-  { value: "system", label: "Как в системе", Icon: Monitor },
+const OPTIONS: { value: Theme; label: string; Icon: typeof Sun }[] = [
   { value: "light", label: "Светлая тема", Icon: Sun },
   { value: "dark", label: "Тёмная тема", Icon: Moon },
 ];
 
-function resolve(p: Pref): "light" | "dark" {
-  return p === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : p;
-}
-
-function apply(p: Pref, animate: boolean) {
+function apply(t: Theme) {
   const set = () => {
-    document.documentElement.dataset.theme = resolve(p);
+    document.documentElement.dataset.theme = t;
   };
   // View Transitions crossfade a GPU snapshot instead of animating every element.
-  if (animate && document.startViewTransition) document.startViewTransition(set);
+  if (document.startViewTransition) document.startViewTransition(set);
   else set();
 }
 
 export function ThemeToggle() {
-  const [pref, setPref] = useState<Pref>("dark");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    let saved: Pref = "dark";
-    try {
-      saved = (localStorage.getItem(KEY) as Pref) || "dark";
-    } catch {}
-    // Reading localStorage is only possible after mount; syncing it into state here is intentional.
+    // The saved choice is only readable after mount, so it is synced into state here on purpose.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPref(saved);
-    const mq = matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => {
-      let cur: Pref = "dark";
-      try {
-        cur = (localStorage.getItem(KEY) as Pref) || "dark";
-      } catch {}
-      if (cur === "system") apply("system", true);
-    };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    setTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
   }, []);
 
-  const choose = (p: Pref) => {
-    setPref(p);
+  const choose = (t: Theme) => {
+    setTheme(t);
     try {
-      localStorage.setItem(KEY, p);
+      localStorage.setItem(KEY, t);
     } catch {}
-    apply(p, true);
+    apply(t);
   };
 
   return (
@@ -63,7 +44,7 @@ export function ThemeToggle() {
           key={value}
           type="button"
           role="radio"
-          aria-checked={pref === value}
+          aria-checked={theme === value}
           aria-label={label}
           title={label}
           onClick={() => choose(value)}

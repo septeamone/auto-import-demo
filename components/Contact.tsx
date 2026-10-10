@@ -109,7 +109,6 @@ export function Contact() {
                   <MessageCircle className="size-4" strokeWidth={1.75} /> +7 000 000-00-00
                 </span>
               </div>
-              <p className="mt-3 text-[12.5px] text-ink-3">Здесь будут ваши настоящие контакты.</p>
             </Reveal>
           </div>
 
@@ -128,8 +127,7 @@ export function Contact() {
                     <CheckCircle2 className="size-14 text-[var(--ok)]" strokeWidth={1.25} />
                     <p className="font-display mt-6 text-[26px] tracking-tight text-ink">Заявка принята</p>
                     <p className="mt-3 max-w-[40ch] text-[15px] text-ink-2">
-                      Это демонстрационная форма: данные никуда не отправлялись. В рабочей версии менеджер свяжется с вами
-                      и уточнит детали.
+                      Менеджер свяжется с вами и уточнит детали.
                     </p>
                     <button
                       type="button"
@@ -232,7 +230,6 @@ export function Contact() {
                         </>
                       )}
                     </button>
-                    <p className="text-center text-[12px] text-ink-3">Демонстрационная форма: данные никуда не отправляются.</p>
                   </motion.form>
                 )}
               </AnimatePresence>

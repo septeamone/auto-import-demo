@@ -8,7 +8,7 @@ import { calculate, DELIVERY_NAME, type Delivery, type Engine } from "@/lib/calc
 import { COUNTRY_SHORT, FUEL_NAME, type CountryCode } from "@/lib/data";
 import { fmt, rub } from "@/lib/format";
 import { Select } from "./Select";
-import { DemoBadge, Reveal, SectionHead } from "./ui";
+import { Reveal, SectionHead } from "./ui";
 import { asset } from "@/lib/asset";
 
 const YEARS = Array.from({ length: 12 }, (_, i) => String(2026 - i));
@@ -205,7 +205,7 @@ export function Calculator() {
               </motion.div>
             </AnimatePresence>
             <p className="absolute bottom-3 left-4 z-10 text-[12px] font-semibold text-ink-3">
-              {SHOWCASE[country].name} · пример из каталога
+              {SHOWCASE[country].name}
             </p>
           </div>
         </Reveal>
@@ -214,7 +214,6 @@ export function Calculator() {
           <div className="glass overflow-hidden rounded-[28px] !bg-[color-mix(in_srgb,var(--surface)_80%,transparent)] p-6 sm:p-8">
             <div className="flex items-center justify-between gap-3">
               <p className="text-[13px] font-bold text-ink-2">Итого без таможни, ориентировочно</p>
-              <DemoBadge>Демо</DemoBadge>
             </div>
             <p className="num mt-3 text-[clamp(34px,4.2vw,54px)] leading-none text-ink" aria-live="polite">
               {priceNum ? rub(shown) : "—"}
@@ -264,7 +263,7 @@ export function Calculator() {
               <Info className="mt-0.5 size-4 shrink-0 text-warn" strokeWidth={1.75} />
               <p>
                 Пошлина, таможенный сбор и утилизационный сбор устанавливает государство, и они меняются. Поэтому мы не
-                показываем их приблизительно, а считаем по действующим ставкам на дату сделки. Суммы выше — примеры.
+                показываем их приблизительно, а считаем по действующим ставкам на дату сделки.
               </p>
             </div>
 

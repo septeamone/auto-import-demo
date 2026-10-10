@@ -16,7 +16,7 @@ import {
 } from "@/lib/data";
 import { fmt, km, plural, rub } from "@/lib/format";
 import { Select } from "./Select";
-import { DemoBadge, Reveal, SectionHead } from "./ui";
+import { Reveal, SectionHead } from "./ui";
 import { asset } from "@/lib/asset";
 
 type Filters = {
@@ -222,12 +222,7 @@ export function Catalog() {
       <div className="mx-auto max-w-[var(--page)] px-5 sm:px-8 lg:px-12 xl:px-20">
         <SectionHead
           title="Что можно привезти"
-          lead={
-            <>
-              Это лишь витрина: привезём любую модель любого бренда. Цены ориентировочные, итог с таможней считает менеджер.{" "}
-              <DemoBadge>Данные демонстрационные.</DemoBadge>
-            </>
-          }
+          lead="Это лишь витрина: привезём любую модель любого бренда. Цены ориентировочные, итог с таможней считает менеджер."
         />
 
         <Reveal className="mt-12 flex flex-col gap-3 lg:mt-16 lg:flex-row lg:items-center">
@@ -505,7 +500,6 @@ function CarDialog({ car, onClose }: { car: Car | null; onClose: () => void }) {
                     Рассчитать
                   </a>
                 </div>
-                <p className="mt-4 text-[12px] text-ink-3">Демонстрационные данные: это пример, а не действующее предложение.</p>
               </div>
             </div>
           )}

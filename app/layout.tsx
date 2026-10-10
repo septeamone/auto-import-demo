@@ -17,7 +17,7 @@ const manrope = Manrope({
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const TITLE = "Ваш бренд — импорт автомобилей из Кореи, Японии и Китая";
 const DESCRIPTION =
-  "Пример сайта для автоимпорта: каталог, расчёт стоимости, этапы сделки и заявки. Подбор, проверка и доставка автомобилей из Кореи, Японии и Китая.";
+  "Каталог, расчёт стоимости, этапы сделки и заявки. Подбор, проверка и доставка автомобилей из Кореи, Японии и Китая.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -41,7 +41,7 @@ export const viewport: Viewport = {
 };
 
 // Sets the theme before first paint so the page never flashes the wrong colours.
-const themeScript = `try{var t=localStorage.getItem('site-theme')||'dark';if(t==='system')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='dark'}`;
+const themeScript = `try{document.documentElement.dataset.theme=localStorage.getItem('site-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

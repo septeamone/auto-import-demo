@@ -84,8 +84,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-line pt-7 text-[12.5px] text-ink-3 md:flex-row md:items-start md:justify-between">
           <div className="max-w-[60ch] space-y-1.5">
-            <p>© 2026 Ваш бренд. Здесь будут ваши юридические данные и реквизиты.</p>
-            <p>Пример сайта. Автомобили, цены и расчёты — демонстрационные, под ваш бизнес всё заменим.</p>
+            <p>© 2026 Ваш бренд. Все права защищены.</p>
           </div>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <span>Политика конфиденциальности</span>
@@ -101,8 +100,7 @@ export function Footer() {
                     <div>
                       <Dialog.Title className="font-display text-[24px] tracking-tight text-ink">Источники фото</Dialog.Title>
                       <Dialog.Description className="mt-2 max-w-[56ch] text-[14px] leading-relaxed text-ink-2">
-                        Иллюстрации взяты из открытых материалов Wikimedia Commons, обработаны (вырезка фона, цветокоррекция) и
-                        показывают модели в качестве примера. В рабочей версии их заменят фотографии реальных автомобилей.
+                        Иллюстрации взяты из открытых материалов Wikimedia Commons и обработаны (вырезка фона, цветокоррекция).
                       </Dialog.Description>
                     </div>
                     <Dialog.Close aria-label="Закрыть" className="grid size-11 shrink-0 place-items-center rounded-full border border-line-strong text-ink-2 hover:text-ink">

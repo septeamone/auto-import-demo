@@ -38,10 +38,10 @@ export type Part = { key: string; label: string; note: string; value: number | n
 export function calculate(i: CalcInput) {
   const parts: Part[] = [
     { key: "car", label: "Стоимость автомобиля", note: "Цена в стране покупки", value: i.price },
-    { key: "local", label: "Расходы в стране покупки", note: "Пример: 3% + фиксированная часть", value: i.price * 0.03 + 45000 },
-    { key: "ship", label: "Доставка до России", note: `Пример тарифа: ${DELIVERY_NOTE[i.delivery]}`, value: SHIPPING[i.country][i.delivery] },
-    { key: "docs", label: "Оформление и экспорт документов", note: "Фиксированная сумма для примера", value: 35000 },
-    { key: "service", label: "Услуги агентства", note: "Пример", value: 80000 },
+    { key: "local", label: "Расходы в стране покупки", note: "3% от цены + фиксированная часть", value: i.price * 0.03 + 45000 },
+    { key: "ship", label: "Доставка до России", note: `Доставка ${DELIVERY_NOTE[i.delivery]}`, value: SHIPPING[i.country][i.delivery] },
+    { key: "docs", label: "Оформление и экспорт документов", note: "Фиксированная сумма", value: 35000 },
+    { key: "service", label: "Услуги агентства", note: "Подбор, проверка и сопровождение сделки", value: 80000 },
     { key: "customs", label: "Таможенные платежи", note: "Устанавливает государство, меняются. Рассчитает менеджер", value: null },
   ];
   const total = parts.reduce((s, p) => s + (p.value ?? 0), 0);
