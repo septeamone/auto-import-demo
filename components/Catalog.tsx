@@ -222,7 +222,7 @@ export function Catalog() {
               Автомобили <DemoBadge>Демонстрационные данные</DemoBadge>
             </>
           }
-          lead="Примеры автомобилей, которые мы подбираем. Цены ориентировочные и включают доставку и оформление; реальные предложения формируются под вашу заявку."
+          lead="Примеры автомобилей, которые мы подбираем. Цены ориентировочные; итоговую стоимость с таможней рассчитывает менеджер, а реальные предложения формируются под вашу заявку."
         />
 
         <Reveal className="mt-12 flex flex-col gap-3 lg:mt-16 lg:flex-row lg:items-center">
@@ -446,10 +446,10 @@ function CarDialog({ car, onClose }: { car: Car | null; onClose: () => void }) {
                 </dl>
 
                 <div className="mt-6 rounded-[20px] bg-accent-soft p-5">
-                  <p className="text-[12.5px] font-semibold text-accent-ink">Ориентировочная цена с доставкой и оформлением</p>
+                  <p className="text-[12.5px] font-semibold text-accent-ink">Ориентировочная цена «под ключ»</p>
                   <p className="num mt-1 text-[clamp(28px,3.2vw,38px)] text-ink">{rub(car.price)}</p>
                   <p className="mt-2 text-[12.5px] text-ink-2">
-                    Точную стоимость назовём после проверки и расчёта по вашей сделке.
+                    Точную стоимость, включая таможню, назовёт менеджер после проверки автомобиля.
                   </p>
                 </div>
 

@@ -6,9 +6,6 @@ export type Engine = "petrol" | "diesel" | "hybrid" | "electric";
 export type CalcInput = {
   country: CountryCode;
   price: number;
-  year: number;
-  volume: number;
-  engine: Engine;
   delivery: Delivery;
 };
 
@@ -30,25 +27,23 @@ const DELIVERY_NOTE: Record<Delivery, string> = {
   truck: "автовозом",
 };
 
-// Иллюстративный расчёт: коэффициенты условные, это не официальные ставки.
-export function calculate(i: CalcInput) {
-  const age = 2026 - (i.year || 2026);
-  const local = i.price * 0.03 + 45000;
-  const shipping = SHIPPING[i.country][i.delivery];
-  const rate = age < 3 ? 0.48 : age <= 5 ? 0.38 : 0.55;
-  const volumeFactor = i.volume <= 1500 ? 0.85 : i.volume <= 2500 ? 1 : 1.25;
-  let customs = i.price * rate * volumeFactor;
-  if (i.engine === "electric") customs = i.price * 0.18;
-  else if (i.engine === "hybrid") customs *= 0.95;
+export type Part = { key: string; label: string; note: string; value: number | null };
 
-  const parts = [
+/**
+ * Считаем только то, что не зависит от законодательства.
+ * Таможенные платежи (пошлина, таможенный сбор, утильсбор) устанавливает государство и они меняются,
+ * поэтому их не считаем: value = null, итог их не включает, расчёт делает менеджер.
+ * Суммы ниже — примеры для демонстрации.
+ */
+export function calculate(i: CalcInput) {
+  const parts: Part[] = [
     { key: "car", label: "Стоимость автомобиля", note: "Цена в стране покупки", value: i.price },
-    { key: "local", label: "Расходы в стране покупки", note: "Пример: 3% + фиксированная часть", value: local },
-    { key: "ship", label: "Доставка до России", note: `Пример тарифа: ${DELIVERY_NOTE[i.delivery]}`, value: shipping },
-    { key: "customs", label: "Таможенные платежи", note: "Условный коэффициент, не официальная ставка", value: customs },
-    { key: "fees", label: "Оформление и сборы", note: "Фиксированная сумма для примера", value: 35000 },
+    { key: "local", label: "Расходы в стране покупки", note: "Пример: 3% + фиксированная часть", value: i.price * 0.03 + 45000 },
+    { key: "ship", label: "Доставка до России", note: `Пример тарифа: ${DELIVERY_NOTE[i.delivery]}`, value: SHIPPING[i.country][i.delivery] },
+    { key: "docs", label: "Оформление и экспорт документов", note: "Фиксированная сумма для примера", value: 35000 },
     { key: "service", label: "Услуги агентства", note: "Пример", value: 80000 },
+    { key: "customs", label: "Таможенные платежи", note: "Устанавливает государство, меняются. Рассчитает менеджер", value: null },
   ];
-  const total = parts.reduce((s, p) => s + p.value, 0);
-  return { parts, total, age };
+  const total = parts.reduce((s, p) => s + (p.value ?? 0), 0);
+  return { parts, total };
 }

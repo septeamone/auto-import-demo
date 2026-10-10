@@ -1,10 +1,10 @@
 "use client";
 
-import { ArrowUpRight, Info } from "lucide-react";
+import { ArrowUpRight, Info, UserRoundCheck } from "lucide-react";
 import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { calculate, DELIVERY_NAME, type CalcInput, type Delivery, type Engine } from "@/lib/calc";
+import { calculate, DELIVERY_NAME, type Delivery, type Engine } from "@/lib/calc";
 import { COUNTRY_SHORT, FUEL_NAME, type CountryCode } from "@/lib/data";
 import { fmt, rub } from "@/lib/format";
 import { Select } from "./Select";
@@ -22,7 +22,6 @@ const COLORS = [
   "color-mix(in srgb, var(--ink) 70%, transparent)",
   "color-mix(in srgb, var(--ink) 48%, transparent)",
   "color-mix(in srgb, var(--ink) 28%, transparent)",
-  "color-mix(in srgb, var(--ink) 14%, transparent)",
 ];
 
 function Segmented<T extends string>({
@@ -78,26 +77,26 @@ function useCountTo(target: number) {
 export function Calculator() {
   const [country, setCountry] = useState<CountryCode>("KR");
   const [price, setPrice] = useState("2500000");
-  const [year, setYear] = useState("2022");
-  const [volume, setVolume] = useState("2000");
-  const [engine, setEngine] = useState<Engine>("petrol");
   const [delivery, setDelivery] = useState<Delivery>("sea");
+  // Эти параметры не меняют сумму: нужны менеджеру для расчёта таможни и уходят в заявку.
+  const [year, setYear] = useState("2022");
+  const [engine, setEngine] = useState<Engine>("petrol");
+  const [volume, setVolume] = useState("2000");
 
-  const input: CalcInput = {
-    country,
-    price: +price || 0,
-    year: +year,
-    volume: engine === "electric" ? 0 : +volume || 0,
-    engine,
-    delivery,
-  };
-  const { parts, total, age } = useMemo(() => calculate(input), [input.country, input.price, input.year, input.volume, input.engine, input.delivery]); // eslint-disable-line react-hooks/exhaustive-deps
-  const shown = useCountTo(input.price ? total : 0);
+  const priceNum = +price || 0;
+  const { parts, total } = useMemo(
+    () => calculate({ country, price: priceNum, delivery }),
+    [country, priceNum, delivery],
+  );
+  const shown = useCountTo(priceNum ? total : 0);
 
   const request = () =>
     window.dispatchEvent(
       new CustomEvent<string>("lead-prefill", {
-        detail: `Расчёт: ${COUNTRY_SHORT[country]}, ${year} г., ${FUEL_NAME[engine].toLowerCase()}, автомобиль за ${rub(input.price)}, ориентир ${rub(total)}.`,
+        detail:
+          `Расчёт: ${COUNTRY_SHORT[country]}, автомобиль за ${rub(priceNum)}, ${year} г., ` +
+          `${FUEL_NAME[engine].toLowerCase()}${engine === "electric" ? "" : `, ${volume} см³`}, ` +
+          `доставка ${DELIVERY_NAME[delivery].toLowerCase()}. Без таможни ориентир ${rub(total)}.`,
       }),
     );
 
@@ -107,7 +106,7 @@ export function Calculator() {
         index="03"
         label="Расчёт"
         title="Цена известна до оплаты."
-        lead="Укажите параметры автомобиля, чтобы увидеть структуру итоговой стоимости. Каждая статья расходов показана отдельно."
+        lead="Посчитаем всё, что не зависит от законов, а таможню рассчитает менеджер по действующим ставкам. Итоговая цена фиксируется в договоре."
       />
 
       <div className="mt-14 grid grid-cols-1 gap-5 lg:mt-20 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
@@ -136,40 +135,6 @@ export function Calculator() {
                 </div>
                 <p className="hint">Цена в стране покупки, в рублях</p>
               </div>
-              <div>
-                <span className="label">Год выпуска</span>
-                <Select
-                  aria-label="Год выпуска"
-                  value={year}
-                  onChange={setYear}
-                  options={YEARS.map((y) => ({ value: y, label: y }))}
-                />
-                <p className="hint">Возраст автомобиля: {age} {age === 1 ? "год" : age >= 2 && age <= 4 ? "года" : "лет"}</p>
-              </div>
-            </div>
-            <Segmented
-              label="Тип двигателя"
-              value={engine}
-              onChange={setEngine}
-              options={(["petrol", "diesel", "hybrid", "electric"] as const).map((e) => ({ value: e, label: FUEL_NAME[e] }))}
-            />
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label htmlFor="c-vol" className="label">
-                  Объём двигателя
-                </label>
-                <div className="field" data-disabled={engine === "electric"}>
-                  <input
-                    id="c-vol"
-                    inputMode="numeric"
-                    disabled={engine === "electric"}
-                    value={engine === "electric" ? "—" : volume}
-                    onChange={(e) => setVolume(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                  />
-                  <span className="text-[13px] text-ink-3">см³</span>
-                </div>
-                <p className="hint">Рабочий объём в кубических сантиметрах</p>
-              </div>
               <Segmented
                 label="Доставка"
                 value={delivery}
@@ -177,7 +142,50 @@ export function Calculator() {
                 options={(["sea", "rail", "truck"] as const).map((d) => ({ value: d, label: DELIVERY_NAME[d] }))}
               />
             </div>
+
+            <div className="border-t border-line pt-7">
+              <p className="text-[15px] font-bold text-ink">Для расчёта таможни</p>
+              <p className="mt-1 max-w-[58ch] text-[13.5px] leading-relaxed text-ink-3">
+                Эти параметры не меняют сумму справа: таможню считает менеджер. Они уйдут в заявку, чтобы он назвал точную
+                цену.
+              </p>
+              <div className="mt-5 grid gap-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <span className="label">Год выпуска</span>
+                    <Select
+                      aria-label="Год выпуска"
+                      value={year}
+                      onChange={setYear}
+                      options={YEARS.map((y) => ({ value: y, label: y }))}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="c-vol" className="label">
+                      Объём двигателя
+                    </label>
+                    <div className="field" data-disabled={engine === "electric"}>
+                      <input
+                        id="c-vol"
+                        inputMode="numeric"
+                        disabled={engine === "electric"}
+                        value={engine === "electric" ? "—" : volume}
+                        onChange={(e) => setVolume(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                      />
+                      <span className="text-[13px] text-ink-3">см³</span>
+                    </div>
+                  </div>
+                </div>
+                <Segmented
+                  label="Тип двигателя"
+                  value={engine}
+                  onChange={setEngine}
+                  options={(["petrol", "diesel", "hybrid", "electric"] as const).map((e) => ({ value: e, label: FUEL_NAME[e] }))}
+                />
+              </div>
+            </div>
           </div>
+
           <div className="stage mt-8 min-h-[190px] flex-1 rounded-[20px] border border-line" aria-hidden>
             <AnimatePresence mode="wait">
               <motion.div
@@ -206,37 +214,49 @@ export function Calculator() {
         <Reveal delay={0.08} className="lg:sticky lg:top-28 lg:self-start">
           <div className="glass overflow-hidden rounded-[28px] !bg-[color-mix(in_srgb,var(--surface)_80%,transparent)] p-6 sm:p-8">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-[13px] font-bold text-ink-2">Итого, ориентировочно</p>
-              <DemoBadge>Демонстрационный расчёт</DemoBadge>
+              <p className="text-[13px] font-bold text-ink-2">Итого без таможни, ориентировочно</p>
+              <DemoBadge>Демо</DemoBadge>
             </div>
             <p className="num mt-3 text-[clamp(34px,4.2vw,54px)] leading-none text-ink" aria-live="polite">
-              {input.price ? rub(shown) : "—"}
+              {priceNum ? rub(shown) : "—"}
             </p>
             <p className="mt-2 text-[13px] text-ink-3">
-              {country} → RU · {DELIVERY_NAME[delivery].toLowerCase()} · {year} г.
+              {country} → RU · {DELIVERY_NAME[delivery].toLowerCase()} · плюс таможня
             </p>
 
             <div className="mt-6 flex h-2.5 gap-[3px] overflow-hidden rounded-full" aria-hidden>
-              {parts.map((p, i) => (
-                <div
-                  key={p.key}
-                  className="h-full rounded-[2px] transition-[flex-grow] duration-700 ease-out"
-                  style={{ flexGrow: Math.max(p.value, 0.0001), flexBasis: 0, background: COLORS[i] }}
-                />
-              ))}
+              {parts
+                .filter((p) => p.value !== null)
+                .map((p, i) => (
+                  <div
+                    key={p.key}
+                    className="h-full rounded-[2px] transition-[flex-grow] duration-700 ease-out"
+                    style={{ flexGrow: Math.max(p.value ?? 0, 0.0001), flexBasis: 0, background: COLORS[i] }}
+                  />
+                ))}
             </div>
 
             <ul className="mt-5 divide-y divide-line">
               {parts.map((p, i) => (
                 <li key={p.key} className="flex items-start justify-between gap-4 py-3">
                   <span className="flex items-start gap-3">
-                    <span className="mt-[7px] size-2.5 shrink-0 rounded-[3px]" style={{ background: COLORS[i] }} />
+                    <span
+                      className={`mt-[7px] size-2.5 shrink-0 rounded-[3px] ${p.value === null ? "border border-dashed border-ink-3" : ""}`}
+                      style={p.value === null ? undefined : { background: COLORS[i] }}
+                    />
                     <span>
                       <span className="block text-[14.5px] font-bold text-ink">{p.label}</span>
                       <span className="block text-[12px] text-ink-3">{p.note}</span>
                     </span>
                   </span>
-                  <span className="text-[14.5px] font-bold whitespace-nowrap text-ink">{rub(p.value)}</span>
+                  {p.value === null ? (
+                    <span className="inline-flex items-center gap-1.5 text-[13px] font-bold whitespace-nowrap text-accent-ink">
+                      <UserRoundCheck className="size-4" strokeWidth={1.75} />
+                      менеджер
+                    </span>
+                  ) : (
+                    <span className="text-[14.5px] font-bold whitespace-nowrap text-ink">{rub(p.value)}</span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -244,8 +264,8 @@ export function Calculator() {
             <div className="mt-5 flex gap-3 rounded-2xl bg-warn-soft p-4 text-[12.5px] leading-relaxed text-ink-2">
               <Info className="mt-0.5 size-4 shrink-0 text-warn" strokeWidth={1.75} />
               <p>
-                Расчёт иллюстративный. Таможенные платежи и сборы рассчитаны по условным коэффициентам и не являются
-                официальными ставками. Точная стоимость появится после подключения проверенных правил расчёта.
+                Пошлина, таможенный сбор и утилизационный сбор устанавливает государство, и они меняются. Поэтому мы не
+                показываем их приблизительно, а считаем по действующим ставкам на дату сделки. Суммы выше — примеры.
               </p>
             </div>
 
