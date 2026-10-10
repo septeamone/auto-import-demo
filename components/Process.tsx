@@ -26,12 +26,7 @@ export function Process() {
   return (
     <section id="process" className="border-t border-line bg-bg-2 py-24 lg:py-32">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-20">
-        <SectionHead
-          index="04"
-          label="Этапы"
-          title="Каждый этап сделки виден заранее."
-          lead="Шесть этапов от заявки до передачи ключей. Прокрутите, чтобы увидеть, что происходит на каждом."
-        />
+        <SectionHead title="Как проходит сделка" lead="Шесть этапов от заявки до передачи ключей. Прокрутите, чтобы увидеть, что происходит на каждом." />
 
         <div className="mt-14 grid grid-cols-1 gap-8 lg:mt-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
           {/* sticky stage */}
@@ -108,7 +103,17 @@ export function Process() {
                   }}
                 />
                 <Reveal>
-                  <p className="num text-[13px] text-accent-ink">Этап {String(i + 1).padStart(2, "0")}</p>
+                  <p
+                    aria-hidden
+                    className="num text-[clamp(60px,7.4vw,112px)] leading-none transition-colors duration-500"
+                    style={{
+                      color: i <= active ? "var(--accent)" : "transparent",
+                      WebkitTextStroke: i <= active ? "0" : "1px var(--line-strong)",
+                    }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <span className="sr-only">Этап {i + 1}</span>
                   <h3
                     className="font-display mt-2 text-[clamp(24px,2.6vw,34px)] leading-tight tracking-tight transition-colors duration-500"
                     style={{ color: i === active ? "var(--ink)" : "var(--ink-2)" }}

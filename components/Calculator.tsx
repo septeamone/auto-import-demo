@@ -103,10 +103,8 @@ export function Calculator() {
   return (
     <section id="calc" className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-20">
       <SectionHead
-        index="03"
-        label="Расчёт"
-        title="Цена известна до оплаты."
-        lead="Посчитаем всё, что не зависит от законов, а таможню рассчитает менеджер по действующим ставкам. Итоговая цена фиксируется в договоре."
+        title="Сколько это стоит"
+        lead="Считаем всё, что не зависит от законов. Таможню менеджер посчитает по действующим ставкам, а итоговая цена фиксируется в договоре."
       />
 
       <div className="mt-14 grid grid-cols-1 gap-5 lg:mt-20 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">

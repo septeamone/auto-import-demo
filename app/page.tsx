@@ -1,12 +1,11 @@
 import { Calculator } from "@/components/Calculator";
 import { Catalog } from "@/components/Catalog";
 import { Contact } from "@/components/Contact";
-import { Countries } from "@/components/Countries";
 import { Faq } from "@/components/Faq";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { Marquee } from "@/components/Marquee";
+import { Markets } from "@/components/Markets";
 import { MobileBar } from "@/components/MobileBar";
 import { Process } from "@/components/Process";
 import { Services } from "@/components/Services";
@@ -17,8 +16,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Marquee />
-        <Countries />
+        <Markets />
         <Catalog />
         <Calculator />
         <Process />

@@ -9,7 +9,7 @@ export function Faq() {
   return (
     <section id="faq" className="border-t border-line bg-bg-2 py-24 lg:py-32">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-20">
-        <SectionHead index="06" label="Вопросы" title="Что обычно спрашивают до заявки." />
+        <SectionHead title="Вопросы до заявки" />
         <Reveal className="mt-12 lg:mt-16 lg:ml-[17%]">
           <Accordion.Root type="single" collapsible defaultValue="item-0" className="max-w-[860px] border-t border-line-strong">
             {FAQ.map((f, i) => (

@@ -84,10 +84,8 @@ export function Contact() {
           <div>
             <SectionHead
               stacked
-              index="07"
-              label="Заявка"
-              title="Расскажите, какой автомобиль вы ищете."
-              lead="Опишите задачу — мы подготовим подборку вариантов и предварительный расчёт стоимости."
+              title="Расскажите, какую машину ищете"
+              lead="Опишите задачу, и мы подготовим подборку вариантов и предварительный расчёт."
             />
             <Reveal delay={0.1} className="mt-10">
               <ol className="grid gap-5 border-t border-line pt-8">

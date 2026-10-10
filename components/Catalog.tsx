@@ -215,14 +215,13 @@ export function Catalog() {
     <section id="catalog" className="relative border-t border-line bg-bg-2 py-24 lg:py-32">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-20">
         <SectionHead
-          index="02"
-          label="Каталог"
-          title={
+          title="Что можно привезти"
+          lead={
             <>
-              Автомобили <DemoBadge>Демонстрационные данные</DemoBadge>
+              Примеры автомобилей, которые мы подбираем. Цены ориентировочные, итог с таможней считает менеджер.{" "}
+              <DemoBadge>Данные демонстрационные.</DemoBadge>
             </>
           }
-          lead="Примеры автомобилей, которые мы подбираем. Цены ориентировочные; итоговую стоимость с таможней рассчитывает менеджер, а реальные предложения формируются под вашу заявку."
         />
 
         <Reveal className="mt-12 flex flex-col gap-3 lg:mt-16 lg:flex-row lg:items-center">

@@ -28,40 +28,65 @@ export function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
-/** Section heading: small index mark on the left, headline from column 3. */
+/** Heading whose words rise out from under a mask, line by line. */
+export function Lines({
+  text,
+  className,
+  as = "h2",
+  delay = 0,
+}: {
+  text: string;
+  className?: string;
+  as?: "h1" | "h2" | "h3" | "p";
+  delay?: number;
+}) {
+  const reduce = useReducedMotion();
+  const Tag = motion[as];
+  const words = text.split(" ");
+  return (
+    <Tag
+      className={className}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+      transition={{ staggerChildren: reduce ? 0 : 0.045, delayChildren: delay }}
+      aria-label={text}
+    >
+      {words.map((w, i) => (
+        <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+          <motion.span
+            className="inline-block"
+            variants={{ hidden: { y: reduce ? 0 : "108%" }, show: { y: 0 } }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {w}
+            {i < words.length - 1 ? " " : ""}
+          </motion.span>
+        </span>
+      ))}
+    </Tag>
+  );
+}
+
+/** Section heading: headline from column 3, lead beneath it. */
 export function SectionHead({
-  index,
-  label,
   title,
   lead,
-  aside,
   stacked,
 }: {
-  index: string;
-  label: string;
-  title: React.ReactNode;
+  title: string;
   lead?: React.ReactNode;
-  aside?: React.ReactNode;
   stacked?: boolean;
 }) {
   return (
-    <div className={stacked ? "flex flex-col gap-5" : "grid gap-x-8 gap-y-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,10fr)]"}>
-      <Reveal className={`flex items-center gap-2.5 self-start text-[13px] font-semibold text-accent-ink ${stacked ? "" : "pt-2 lg:pt-4"}`}>
-        <Vector size={12} />
-        <span className="tabular-nums">{index}</span>
-        <span className="text-ink-3">/</span>
-        <span>{label}</span>
-      </Reveal>
-      <div className="flex flex-col gap-5">
-        <Reveal delay={0.05}>
-          <h2 className="h2 max-w-[20ch]">{title}</h2>
-        </Reveal>
+    <div className={stacked ? "" : "lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,10fr)] lg:gap-x-8"}>
+      <div className={stacked ? "flex flex-col gap-5" : "col-start-2 flex flex-col gap-5"}>
+        <Lines text={title} className="h2 max-w-[20ch]" />
         {lead && (
           <Reveal delay={0.1}>
             <p className="lead">{lead}</p>
           </Reveal>
         )}
-        {aside}
       </div>
     </div>
   );
@@ -95,10 +120,5 @@ export function Reveal({
 }
 
 export function DemoBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex h-7 items-center gap-2 rounded-full bg-warn-soft px-3 text-[12px] font-bold text-warn">
-      <span className="size-1.5 rounded-full bg-warn" />
-      {children}
-    </span>
-  );
+  return <span className="text-[12.5px] font-semibold text-warn">{children}</span>;
 }
