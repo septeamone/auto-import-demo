@@ -224,7 +224,7 @@ export function Catalog() {
           title="Что можно привезти"
           lead={
             <>
-              Примеры автомобилей, которые мы подбираем. Цены ориентировочные, итог с таможней считает менеджер.{" "}
+              Это лишь витрина: привезём любую модель любого бренда. Цены ориентировочные, итог с таможней считает менеджер.{" "}
               <DemoBadge>Данные демонстрационные.</DemoBadge>
             </>
           }
@@ -328,6 +328,17 @@ export function Catalog() {
                       <CarCard car={c} onOpen={() => setOpen(c)} />
                     </motion.li>
                   ))}
+                  <motion.li
+                    key="any"
+                    className="sm:col-span-2 xl:col-span-3"
+                    layout
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.4, ease: [0.2, 0, 0, 1] }}
+                  >
+                    <AnyCard />
+                  </motion.li>
                 </AnimatePresence>
               </motion.ul>
             )}
@@ -337,6 +348,33 @@ export function Catalog() {
 
       <CarDialog car={open} onClose={() => setOpen(null)} />
     </section>
+  );
+}
+
+/** The last card: the catalog is only a showcase, any model of any brand can be ordered. */
+function AnyCard() {
+  const ask = () =>
+    window.dispatchEvent(new CustomEvent<string>("lead-prefill", { detail: "Хочу подобрать автомобиль, которого нет в каталоге: " }));
+  return (
+    <article className="relative flex flex-col gap-10 overflow-hidden rounded-[24px] bg-ink p-6 text-bg sm:p-9 lg:gap-14">
+      <div className="flex flex-col gap-5">
+        <p className="text-[13px] font-bold opacity-60">Каталог — только витрина</p>
+        <h3 className="display text-[clamp(34px,5vw,76px)] !leading-[1.02]">
+          Любая модель.
+          <br />
+          Любой бренд.
+        </h3>
+      </div>
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+        <p className="max-w-[44ch] text-[16px] leading-relaxed opacity-75">
+          Привезём любой автомобиль из Кореи, Японии и Китая. Опишите, что хотите, и мы найдём варианты и посчитаем цену.
+        </p>
+        <a href="#contact" onClick={ask} className="btn btn-primary shrink-0">
+          Подобрать мой автомобиль
+          <ArrowUpRight className="size-[18px]" strokeWidth={2} />
+        </a>
+      </div>
+    </article>
   );
 }
 

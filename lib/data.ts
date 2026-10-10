@@ -57,6 +57,7 @@ export const COUNTRIES: {
   coords: string;
   photo: string;
   lead: string;
+  brands: string[];
   text: string;
   days: string;
   port: string;
@@ -66,7 +67,8 @@ export const COUNTRIES: {
     city: "Сеул",
     coords: "37.5665° N · 126.9780° E",
     photo: "/photos/city-kr.webp",
-    lead: "Hyundai, Kia, Genesis",
+    lead: "Hyundai, Kia, Genesis и другие марки",
+    brands: ["Hyundai", "Kia", "Genesis", "KG Mobility", "Renault", "Chevrolet"],
     text: "Подбираем автомобили на внутреннем рынке Кореи. Проверяем историю обслуживания и состояние до покупки.",
     days: "18–25 дней",
     port: "Пусан → Владивосток",
@@ -76,7 +78,8 @@ export const COUNTRIES: {
     city: "Токио",
     coords: "35.6762° N · 139.6503° E",
     photo: "/photos/city-jp.webp",
-    lead: "Toyota, Lexus, Honda, Mazda",
+    lead: "Toyota, Lexus, Honda, Mazda и другие марки",
+    brands: ["Toyota", "Lexus", "Honda", "Mazda", "Nissan", "Subaru", "Suzuki", "Mitsubishi", "Daihatsu", "Isuzu"],
     text: "Автомобили с внутреннего рынка Японии. Изучаем аукционные листы и независимую оценку состояния.",
     days: "20–28 дней",
     port: "Иокогама → Владивосток",
@@ -86,7 +89,8 @@ export const COUNTRIES: {
     city: "Шанхай",
     coords: "31.2304° N · 121.4737° E",
     photo: "/photos/city-cn.webp",
-    lead: "Zeekr, Geely, BYD",
+    lead: "BYD, Geely, Zeekr и другие марки",
+    brands: ["BYD", "Geely", "Zeekr", "Chery", "Haval", "Changan", "Li Auto", "NIO", "Xpeng", "Voyah", "Lynk & Co", "Hongqi", "Denza", "Avatr", "Jetour"],
     text: "Электромобили и гибриды китайских марок. Сверяем комплектацию и документы с продавцом.",
     days: "15–25 дней",
     port: "Шанхай → Владивосток",

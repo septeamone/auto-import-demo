@@ -14,6 +14,35 @@ type Market = (typeof COUNTRIES)[number];
 const pick = (code: CountryCode) =>
   window.dispatchEvent(new CustomEvent<CountryCode>("catalog-country", { detail: code }));
 
+/** Brands of one country running endlessly, ending with "any other brand": the choice is wider than the list. */
+function BrandRow({ brands, className = "" }: { brands: string[]; className?: string }) {
+  const set = [...brands, ...brands, ...brands];
+  const row = (k: string) => (
+    <div key={k} className="flex shrink-0 items-center gap-[0.55em] pr-[0.55em]" aria-hidden>
+      {set.map((b, i) => (
+        <span key={`${b}-${i}`} className="flex items-center gap-[0.55em]">
+          <span className="text-white/85">{b}</span>
+          <span className="text-accent-ink">/</span>
+        </span>
+      ))}
+      <span className="text-accent-ink">и любой другой бренд</span>
+      <span className="text-accent-ink">/</span>
+    </div>
+  );
+  return (
+    <div
+      role="img"
+      aria-label={`Бренды: ${brands.join(", ")} и любой другой`}
+      className={`overflow-hidden whitespace-nowrap [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] ${className}`}
+    >
+      <div className="display flex w-max text-[clamp(32px,4.4vw,64px)] !leading-[1.1]" style={{ animation: "marquee 70s linear infinite" }}>
+        {row("a")}
+        {row("b")}
+      </div>
+    </div>
+  );
+}
+
 function Facts({ c }: { c: Market }) {
   const n = CARS.filter((x) => x.country === c.code).length;
   return (
@@ -65,13 +94,14 @@ function Panel({ c, i, p }: { c: Market; i: number; p: MotionValue<number> }) {
       >
         {c.code}
       </motion.span>
-      <div className="relative mx-auto flex h-full max-w-[var(--page)] flex-col justify-end px-12 pb-[15svh] xl:px-20">
+      <div className="relative mx-auto flex h-full max-w-[var(--page)] flex-col justify-end px-12 pb-[25svh] xl:px-20">
         <p className="text-[13px] font-semibold text-white/60">
           {c.city} · {c.coords}
         </p>
         <h3 className="display mt-3 text-[clamp(52px,7.4vw,120px)] text-white">{COUNTRY_NAME[c.code]}</h3>
         <Facts c={c} />
       </div>
+      <BrandRow brands={c.brands} className="absolute inset-x-0 bottom-[9svh]" />
     </div>
   );
 }
@@ -121,7 +151,8 @@ export function Markets() {
           <div key={c.code} className="relative flex min-h-[88svh] items-end overflow-hidden">
             <Image fetchPriority="low" src={asset(c.photo)} alt={`${c.city}, ${COUNTRY_NAME[c.code]}`} fill sizes="100vw" className="object-cover" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,9,14,0.5),rgba(6,9,14,0.3)_30%,rgba(6,9,14,0.9))]" />
-            <div className="relative flex flex-col px-5 pb-28 sm:px-8">
+            <div className="relative flex w-full flex-col px-5 pb-28 sm:px-8">
+              <BrandRow brands={c.brands} className="-mx-5 mb-9 sm:-mx-8 [&>div]:!text-[clamp(26px,7vw,40px)]" />
               <p className="text-[13px] font-semibold text-white/60">
                 {c.city} · {c.coords}
               </p>
