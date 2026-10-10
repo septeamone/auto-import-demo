@@ -23,7 +23,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <Vector className="text-accent" size={20} />
-      <span className="font-display text-[17px] font-semibold tracking-[0.04em] text-ink">LI MOTORS</span>
+      <span className="font-display text-[17px] font-semibold tracking-[0.04em] text-ink">ВАШ БРЕНД</span>
     </span>
   );
 }

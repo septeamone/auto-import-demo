@@ -29,7 +29,7 @@ export function Footer() {
   const rows = Object.entries(credits as Record<string, Credit>);
   return (
     <footer className="border-t border-line bg-bg-2">
-      <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-12 xl:px-20">
+      <div className="mx-auto max-w-[var(--page)] px-5 py-16 sm:px-8 lg:px-12 xl:px-20">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,4fr)_repeat(3,minmax(0,2fr))]">
           <div>
             <Wordmark />
@@ -54,9 +54,9 @@ export function Footer() {
             <p className="text-[13px] font-bold text-ink-3">Контакты</p>
             <ul className="mt-4 grid gap-4 text-[15px]">
               {[
-                ["Телефон", "будет указан"],
-                ["Эл. почта", "будет указана"],
-                ["Офис", "адрес будет указан"],
+                ["Телефон", "+7 (000) 000-00-00"],
+                ["Эл. почта", "hello@вашбренд.рф"],
+                ["Офис", "Владивосток, ул. Портовая, 1"],
               ].map(([k, v]) => (
                 <li key={k}>
                   <span className="block font-semibold text-ink">{k}</span>
@@ -68,10 +68,14 @@ export function Footer() {
           <div>
             <p className="text-[13px] font-bold text-ink-3">Соцсети</p>
             <ul className="mt-4 grid gap-3 text-[15px]">
-              {["Telegram", "WhatsApp", "ВКонтакте"].map((s) => (
+              {[
+                ["Telegram", "@yourbrand"],
+                ["WhatsApp", "+7 000 000-00-00"],
+                ["ВКонтакте", "vk.com/yourbrand"],
+              ].map(([s, h]) => (
                 <li key={s} className="flex items-baseline justify-between gap-3">
                   <span className="font-semibold text-ink">{s}</span>
-                  <span className="text-[12.5px] text-ink-3">ссылка появится</span>
+                  <span className="text-[12.5px] text-ink-3">{h}</span>
                 </li>
               ))}
             </ul>
@@ -80,8 +84,8 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-line pt-7 text-[12.5px] text-ink-3 md:flex-row md:items-start md:justify-between">
           <div className="max-w-[60ch] space-y-1.5">
-            <p>© 2026 LI MOTORS. Юридическая информация и реквизиты будут опубликованы.</p>
-            <p>Прототип сайта. Данные об автомобилях и расчёты стоимости — демонстрационные.</p>
+            <p>© 2026 Ваш бренд. Здесь будут ваши юридические данные и реквизиты.</p>
+            <p>Пример сайта. Автомобили, цены и расчёты — демонстрационные, под ваш бизнес всё заменим.</p>
           </div>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <span>Политика конфиденциальности</span>

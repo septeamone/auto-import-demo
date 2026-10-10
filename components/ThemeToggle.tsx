@@ -4,7 +4,7 @@ import { Monitor, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Pref = "system" | "light" | "dark";
-const KEY = "limotors-theme";
+const KEY = "site-theme";
 
 const OPTIONS: { value: Pref; label: string; Icon: typeof Sun }[] = [
   { value: "system", label: "Как в системе", Icon: Monitor },

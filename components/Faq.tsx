@@ -8,7 +8,7 @@ import { Reveal, SectionHead } from "./ui";
 export function Faq() {
   return (
     <section id="faq" className="border-t border-line bg-bg-2 py-24 lg:py-32">
-      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-20">
+      <div className="mx-auto max-w-[var(--page)] px-5 sm:px-8 lg:px-12 xl:px-20">
         <SectionHead title="Вопросы до заявки" />
         <Reveal className="mt-12 lg:mt-16 lg:ml-[17%]">
           <Accordion.Root type="single" collapsible defaultValue="item-0" className="max-w-[860px] border-t border-line-strong">

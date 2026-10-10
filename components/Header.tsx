@@ -45,7 +45,7 @@ export function Header() {
         aria-label="Основная навигация"
         className="glass glass-refract relative mx-auto flex h-[60px] max-w-[1180px] items-center gap-3 overflow-hidden rounded-full pr-2 pl-5 sm:h-[64px]"
       >
-        <a href="#top" aria-label="LI MOTORS — на главную" className="shrink-0">
+        <a href="#top" aria-label="Ваш бренд — на главную" className="shrink-0">
           <Wordmark />
         </a>
 

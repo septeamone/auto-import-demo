@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { CARS, COUNTRIES, COUNTRY_NAME, type CountryCode } from "@/lib/data";
 import { plural } from "@/lib/format";
 import { Lines } from "./ui";
+import { asset } from "@/lib/asset";
 
 type Market = (typeof COUNTRIES)[number];
 
@@ -48,12 +49,12 @@ function Panel({ c, i, p }: { c: Market; i: number; p: MotionValue<number> }) {
   return (
     <div className="relative h-full w-screen shrink-0 overflow-hidden">
       <motion.div style={{ x: shift }} className="absolute inset-y-0 -inset-x-[12%]">
-        <Image
-          src={c.photo}
+        <Image fetchPriority="low"
+          src={asset(c.photo)}
           alt={`${c.city}, ${COUNTRY_NAME[c.code]}`}
           fill
           sizes="120vw"
-          className="photo object-cover"
+          className="object-cover"
         />
       </motion.div>
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,9,14,0.88),rgba(6,9,14,0.45)_55%,rgba(6,9,14,0.25))]" />
@@ -64,7 +65,7 @@ function Panel({ c, i, p }: { c: Market; i: number; p: MotionValue<number> }) {
       >
         {c.code}
       </motion.span>
-      <div className="relative mx-auto flex h-full max-w-[1440px] flex-col justify-end px-12 pb-[15svh] xl:px-20">
+      <div className="relative mx-auto flex h-full max-w-[var(--page)] flex-col justify-end px-12 pb-[15svh] xl:px-20">
         <p className="text-[13px] font-semibold text-white/60">
           {c.city} · {c.coords}
         </p>
@@ -86,18 +87,18 @@ export function Markets() {
       {/* wide screens: three scenes in a pinned horizontal scroll */}
       <div className="relative hidden h-[330svh] lg:block">
         <div className="sticky top-0 h-svh overflow-hidden">
-          <motion.div style={{ x }} className="flex h-full w-[300vw]">
+          <div className="pointer-events-none absolute inset-x-0 top-[120px] z-10">
+            <div className="mx-auto max-w-[var(--page)] px-12 xl:px-20">
+              <Lines text="Откуда привозим" className="h2 text-white" />
+            </div>
+          </div>
+          <motion.div style={{ x }} className="flex h-full w-[300vw] will-change-transform">
             {COUNTRIES.map((c, i) => (
               <Panel key={c.code} c={c} i={i} p={p} />
             ))}
           </motion.div>
-          <div className="pointer-events-none absolute inset-x-0 top-[120px] z-10">
-            <div className="mx-auto max-w-[1440px] px-12 xl:px-20">
-              <Lines text="Откуда привозим" className="h2 text-white" />
-            </div>
-          </div>
           <div className="absolute inset-x-0 bottom-[6svh] z-10">
-            <div className="mx-auto flex max-w-[1440px] items-center gap-5 px-12 xl:px-20">
+            <div className="mx-auto flex max-w-[var(--page)] items-center gap-5 px-12 xl:px-20">
               {COUNTRIES.map((c) => (
                 <span key={c.code} className="text-[13px] font-semibold text-white/70">
                   {c.code}
@@ -118,9 +119,9 @@ export function Markets() {
         </div>
         {COUNTRIES.map((c) => (
           <div key={c.code} className="relative flex min-h-[88svh] items-end overflow-hidden">
-            <Image src={c.photo} alt={`${c.city}, ${COUNTRY_NAME[c.code]}`} fill sizes="100vw" className="photo object-cover" />
+            <Image fetchPriority="low" src={asset(c.photo)} alt={`${c.city}, ${COUNTRY_NAME[c.code]}`} fill sizes="100vw" className="object-cover" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,9,14,0.5),rgba(6,9,14,0.3)_30%,rgba(6,9,14,0.9))]" />
-            <div className="relative flex flex-col px-5 pb-10 sm:px-8">
+            <div className="relative flex flex-col px-5 pb-28 sm:px-8">
               <p className="text-[13px] font-semibold text-white/60">
                 {c.city} · {c.coords}
               </p>

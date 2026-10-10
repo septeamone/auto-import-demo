@@ -17,6 +17,7 @@ import {
 import { fmt, km, plural, rub } from "@/lib/format";
 import { Select } from "./Select";
 import { DemoBadge, Reveal, SectionHead } from "./ui";
+import { asset } from "@/lib/asset";
 
 type Filters = {
   q: string;
@@ -129,6 +130,7 @@ export function Catalog() {
     <div className="grid gap-5">
       <Field label="Марка">
         <Select
+          aria-label="Марка"
           value={f.brand}
           onChange={(v) => set("brand", v)}
           options={[{ value: "", label: "Все марки" }, ...BRANDS.map((b) => ({ value: b, label: b }))]}
@@ -136,6 +138,7 @@ export function Catalog() {
       </Field>
       <Field label="Модель">
         <Select
+          aria-label="Модель"
           value={f.model}
           disabled={!f.brand}
           placeholder="Сначала выберите марку"
@@ -184,10 +187,12 @@ export function Catalog() {
         </div>
       </Field>
       <Field label="Пробег">
-        <Select value={f.mileage} onChange={(v) => set("mileage", v)} options={MILEAGE} />
+        <Select
+          aria-label="Пробег" value={f.mileage} onChange={(v) => set("mileage", v)} options={MILEAGE} />
       </Field>
       <Field label="Тип топлива">
         <Select
+          aria-label="Тип топлива"
           value={f.fuel}
           onChange={(v) => set("fuel", v)}
           options={[{ value: "", label: "Любой" }, ...Object.entries(FUEL_NAME).map(([value, label]) => ({ value, label }))]}
@@ -195,6 +200,7 @@ export function Catalog() {
       </Field>
       <Field label="Коробка передач">
         <Select
+          aria-label="Коробка передач"
           value={f.trans}
           onChange={(v) => set("trans", v)}
           options={[{ value: "", label: "Любая" }, ...TRANS.map((t) => ({ value: t, label: t }))]}
@@ -213,7 +219,7 @@ export function Catalog() {
 
   return (
     <section id="catalog" className="relative border-t border-line bg-bg-2 py-24 lg:py-32">
-      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-20">
+      <div className="mx-auto max-w-[var(--page)] px-5 sm:px-8 lg:px-12 xl:px-20">
         <SectionHead
           title="Что можно привезти"
           lead={
@@ -280,14 +286,14 @@ export function Catalog() {
 
           {/* Results */}
           <div>
-            <div className="mb-5 flex items-center justify-between gap-4">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
               <p className="text-[14px] font-semibold text-ink-3">
                 Найдено{" "}
                 <span className="font-display ml-1 text-[18px] text-ink">
                   {list.length} {plural(list.length, ["автомобиль", "автомобиля", "автомобилей"])}
                 </span>
               </p>
-              <div className="w-[190px] sm:w-[220px]">
+              <div className="w-[170px] sm:w-[220px]">
                 <Select aria-label="Сортировка" value={f.sort} onChange={(v) => set("sort", v)} options={SORTS} />
               </div>
             </div>
@@ -338,9 +344,9 @@ function CarCard({ car, onOpen }: { car: Car; onOpen: () => void }) {
   return (
     <article className="card-hover group relative overflow-hidden rounded-[24px] border border-line bg-surface transition-[border-color,transform] duration-300 hover:border-line-strong">
       <div className="stage aspect-[4/3]">
-        <Image
+        <Image fetchPriority="low"
           className="car"
-          src={`/cars/${car.slug}.webp`}
+          src={asset(`/cars/${car.slug}.webp`)}
           alt={`${car.brand} ${car.model}`}
           width={1400}
           height={800}
@@ -400,9 +406,9 @@ function CarDialog({ car, onClose }: { car: Car | null; onClose: () => void }) {
           {car && (
             <div className="grid md:grid-cols-[1.1fr_1fr]">
               <div className="stage min-h-[260px] md:min-h-[520px]">
-                <Image
+                <Image fetchPriority="low"
                   className="car !bottom-[18%] !w-[92%]"
-                  src={`/cars/${car.slug}.webp`}
+                  src={asset(`/cars/${car.slug}.webp`)}
                   alt={`${car.brand} ${car.model}`}
                   width={1400}
                   height={800}

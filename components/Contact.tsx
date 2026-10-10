@@ -79,7 +79,7 @@ export function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden border-t border-line py-24 lg:py-32">
       <div aria-hidden className="absolute -bottom-1/3 left-1/2 -z-10 h-[80%] w-[90%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--accent)_22%,transparent),transparent)] blur-3xl" />
-      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-20">
+      <div className="mx-auto max-w-[var(--page)] px-5 sm:px-8 lg:px-12 xl:px-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
             <SectionHead
@@ -102,14 +102,14 @@ export function Contact() {
                 ))}
               </ol>
               <div className="mt-8 flex flex-wrap gap-3">
-                <span className="btn btn-ghost btn-sm cursor-default opacity-70" title="Ссылка появится">
-                  <Send className="size-4" strokeWidth={1.75} /> Telegram
+                <span className="btn btn-ghost btn-sm cursor-default">
+                  <Send className="size-4" strokeWidth={1.75} /> @yourbrand
                 </span>
-                <span className="btn btn-ghost btn-sm cursor-default opacity-70" title="Ссылка появится">
-                  <MessageCircle className="size-4" strokeWidth={1.75} /> WhatsApp
+                <span className="btn btn-ghost btn-sm cursor-default">
+                  <MessageCircle className="size-4" strokeWidth={1.75} /> +7 000 000-00-00
                 </span>
               </div>
-              <p className="mt-3 text-[12.5px] text-ink-3">Ссылки на мессенджеры появятся после запуска.</p>
+              <p className="mt-3 text-[12.5px] text-ink-3">Здесь будут ваши настоящие контакты.</p>
             </Reveal>
           </div>
 

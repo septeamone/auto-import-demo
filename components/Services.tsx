@@ -3,7 +3,7 @@ import { Reveal, SectionHead } from "./ui";
 
 export function Services() {
   return (
-    <section id="services" className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-20">
+    <section id="services" className="mx-auto max-w-[var(--page)] px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-20">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHead

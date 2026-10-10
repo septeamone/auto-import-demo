@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { STEPS, TIMELINE } from "@/lib/data";
 import { Reveal, SectionHead } from "./ui";
+import { asset } from "@/lib/asset";
 
 export function Process() {
   const [active, setActive] = useState(0);
@@ -25,7 +26,7 @@ export function Process() {
 
   return (
     <section id="process" className="border-t border-line bg-bg-2 py-24 lg:py-32">
-      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-20">
+      <div className="mx-auto max-w-[var(--page)] px-5 sm:px-8 lg:px-12 xl:px-20">
         <SectionHead title="Как проходит сделка" lead="Шесть этапов от заявки до передачи ключей. Прокрутите, чтобы увидеть, что происходит на каждом." />
 
         <div className="mt-14 grid grid-cols-1 gap-8 lg:mt-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
@@ -33,12 +34,12 @@ export function Process() {
           <div className="hidden lg:block">
             <div className="sticky top-28">
               <div className="relative aspect-[4/5] max-h-[640px] overflow-hidden rounded-[28px] border border-line">
-                <Image
-                  src="/photos/hero-ship.webp"
+                <Image fetchPriority="low"
+                  src={asset("/photos/hero-ship.webp")}
                   alt="Автомобилевоз в порту"
                   fill
                   sizes="40vw"
-                  className="photo object-cover"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,8,12,0.5),rgba(6,8,12,0.05)_45%,rgba(6,8,12,0.55))]" />
                 <div className="absolute inset-x-0 top-0 p-4">

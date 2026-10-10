@@ -1,6 +1,8 @@
 import { Calculator } from "@/components/Calculator";
 import { Catalog } from "@/components/Catalog";
 import { Contact } from "@/components/Contact";
+import { Control } from "@/components/Control";
+import { DemoNotice } from "@/components/DemoNotice";
 import { Faq } from "@/components/Faq";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -21,11 +23,13 @@ export default function Home() {
         <Calculator />
         <Process />
         <Services />
+        <Control />
         <Faq />
         <Contact />
       </main>
       <Footer />
       <MobileBar />
+      <DemoNotice />
     </>
   );
 }

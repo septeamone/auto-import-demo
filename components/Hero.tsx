@@ -13,6 +13,7 @@ import {
 } from "motion/react";
 import Image from "next/image";
 import { useRef } from "react";
+import { asset } from "@/lib/asset";
 
 const STORY = [
   "Забираем автомобиль в порту отправления.",
@@ -71,14 +72,12 @@ export function Hero() {
         {/* the port, revealed from a window */}
         <motion.div suppressHydrationWarning style={reduce ? undefined : { clipPath: clip, opacity: winO }} className="absolute inset-0 z-0">
           <motion.div style={{ scale: imgS }} className="absolute inset-0">
-            <Image
-              src="/photos/hero-ship.webp"
+            <Image fetchPriority="low"
+              src={asset("/photos/hero-ship.webp")}
               alt="Автомобилевоз у причала порта"
               fill
               sizes="100vw"
-              priority
               className="object-cover"
-              style={{ filter: "saturate(0.85) brightness(0.7) contrast(1.05)" }}
             />
           </motion.div>
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,9,14,0.6),rgba(6,9,14,0.3)_35%,rgba(6,9,14,0.88)_100%)]" />
@@ -91,61 +90,47 @@ export function Hero() {
           </div>
         </motion.div>
 
-        <div className="relative z-10 mx-auto flex h-full max-w-[1440px] flex-col px-5 pt-[104px] sm:px-8 sm:pt-[120px] lg:px-12 xl:px-20">
-          <motion.p
-            suppressHydrationWarning
-            style={{ opacity: uiO }}
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-[14px] font-semibold text-ink-2"
-          >
-            Импорт автомобилей из Кореи, Японии и Китая
+        <div className="relative z-10 mx-auto flex h-full max-w-[var(--page)] flex-col px-5 pt-[104px] sm:px-8 sm:pt-[120px] lg:px-12 xl:px-20">
+          <motion.p suppressHydrationWarning style={{ opacity: uiO }} className="text-[14px] font-semibold text-ink-2">
+            <span className="anim-fade block" style={{ "--d": "0.1s" } as React.CSSProperties}>
+              Импорт автомобилей из Кореи, Японии и Китая
+            </span>
           </motion.p>
 
-          <motion.h1 suppressHydrationWarning style={{ opacity: headO }} className="display relative z-[4] mt-5 text-[clamp(54px,8.9vw,132px)] !leading-[0.96] lg:whitespace-nowrap">
+          <motion.h1 suppressHydrationWarning style={{ opacity: headO }} className="display relative z-[4] mt-5 text-[clamp(54px,13.5vw,150px)] !leading-[0.96] lg:text-[clamp(54px,8.9vw,156px)] lg:whitespace-nowrap">
             <motion.span style={{ x: l1x }} className="block">
-              <motion.span
-                className="block"
-                initial={reduce ? false : { y: "40%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              >
+              <span className="anim-rise block" style={{ "--d": "0.1s" } as React.CSSProperties}>
                 Из Азии
-              </motion.span>
+              </span>
             </motion.span>
             <motion.span style={{ x: l2x }} className="block">
-              <motion.span
-                className="block"
-                initial={reduce ? false : { y: "40%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              >
+              <span className="anim-rise block" style={{ "--d": "0.22s" } as React.CSSProperties}>
                 в ваш город.
-              </motion.span>
+              </span>
             </motion.span>
           </motion.h1>
 
           <motion.div
             suppressHydrationWarning
             style={{ x: carX, scale: carS, opacity: carO }}
-            className="pointer-events-none relative z-[5] -mx-[6%] mt-3 w-[104%] sm:absolute sm:right-[-4%] sm:bottom-[16%] sm:mx-0 sm:mt-0 sm:w-[74%] lg:right-[-1%] lg:bottom-[3%] lg:w-[55%]"
+            className="pointer-events-none relative z-[5] will-change-transform -mx-[6%] mt-3 w-[104%] sm:absolute sm:right-[-4%] sm:bottom-[16%] sm:mx-0 sm:mt-0 sm:w-[74%] lg:right-[-1%] lg:bottom-[3%] lg:w-[min(55%,calc((100svh_-_188px_-_1.92_*_min(8.9vw,156px))_*_1.69))]"
           >
             <motion.div style={{ x: px }}>
-              <motion.div
-                initial={reduce ? false : { opacity: 0, x: -180, filter: "blur(14px)" }}
-                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                transition={{ duration: 1.5, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <Image
-                  src="/cars/prado.webp"
+              <div className="anim-drive" style={{ "--d": "0.35s" } as React.CSSProperties}>
+                {/* a plain <img> so phones get the lighter 1280px file through srcSet */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={asset("/cars/prado.webp")}
+                  srcSet={`${asset("/cars/prado-1280.webp")} 1280w, ${asset("/cars/prado.webp")} 2000w`}
+                  sizes="(min-width: 1024px) 55vw, 104vw"
                   alt="Toyota Land Cruiser Prado"
                   width={2000}
                   height={1181}
-                  priority
+                  fetchPriority="high"
+                  decoding="async"
                   className="h-auto w-full drop-shadow-[0_40px_50px_rgba(0,0,0,0.45)]"
                 />
-              </motion.div>
+              </div>
             </motion.div>
           </motion.div>
 

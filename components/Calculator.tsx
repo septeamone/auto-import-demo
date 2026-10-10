@@ -9,6 +9,7 @@ import { COUNTRY_SHORT, FUEL_NAME, type CountryCode } from "@/lib/data";
 import { fmt, rub } from "@/lib/format";
 import { Select } from "./Select";
 import { DemoBadge, Reveal, SectionHead } from "./ui";
+import { asset } from "@/lib/asset";
 
 const YEARS = Array.from({ length: 12 }, (_, i) => String(2026 - i));
 const SHOWCASE: Record<CountryCode, { slug: string; name: string }> = {
@@ -101,7 +102,7 @@ export function Calculator() {
     );
 
   return (
-    <section id="calc" className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-20">
+    <section id="calc" className="mx-auto max-w-[var(--page)] px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-20">
       <SectionHead
         title="Сколько это стоит"
         lead="Считаем всё, что не зависит от законов. Таможню менеджер посчитает по действующим ставкам, а итоговая цена фиксируется в договоре."
@@ -194,9 +195,9 @@ export function Calculator() {
                 transition={{ duration: 0.45, ease: [0.2, 0, 0, 1] }}
                 className="absolute inset-0"
               >
-                <Image
+                <Image fetchPriority="low"
                   className="car !bottom-[16%] !w-[62%]"
-                  src={`/cars/${SHOWCASE[country].slug}.webp`}
+                  src={asset(`/cars/${SHOWCASE[country].slug}.webp`)}
                   alt=""
                   width={1400}
                   height={800}

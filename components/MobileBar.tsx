@@ -35,7 +35,7 @@ export function MobileBar() {
         >
           <a href="#contact" className="glass flex h-14 items-center justify-between rounded-full pr-1.5 pl-6 text-[15px] font-bold text-ink">
             Рассчитать стоимость
-            <span className="grid size-11 place-items-center rounded-full bg-accent text-on-accent">
+            <span className="grid size-11 place-items-center rounded-full bg-accent-fill text-on-accent">
               <ArrowUpRight className="size-5" strokeWidth={2} />
             </span>
           </a>
